@@ -1,0 +1,35 @@
+@import '../variables';
+.root {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.login__block {
+  flex: 1;
+}
+
+.login__form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 50px 30px;
+  form {
+    display: flex;
+    flex-direction: column;
+    a {
+      font-size: 14px;
+      font-weight: 500;
+      margin: -20px 0 50px 0;
+      color: $btn-color;
+    }
+  }
+}
+
+.registration {
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 500;
+  color: $btn-color;
+  margin-top: 209px;
+}

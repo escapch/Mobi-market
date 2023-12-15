@@ -1,0 +1,50 @@
+@import '../variables';
+.profile__content {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  grid-template-rows: 1fr;
+  grid-column-gap: px;
+  grid-row-gap: px;
+
+  .profile__block2 {
+    min-height: 100vw;
+    background: $bg-profile;
+  }
+
+  .block__nav {
+    padding: 30px 40px;
+
+    .top {
+      margin-bottom: 50px;
+    }
+    .links {
+      li {
+        margin-bottom: 27px;
+        border-radius: 10px;
+        padding: 5px 10px;
+        transition: 0.3s;
+        font-weight: 500;
+
+        &:last-child {
+          margin-top: 63px;
+        }
+
+        &:hover {
+          background: $link-bg;
+        }
+      }
+    }
+  }
+
+  .block__main {
+    padding: 40px 124px;
+  }
+
+  .profile__settings {
+    .settings__top {
+      display: flex;
+      align-items: center;
+      gap: 50%;
+    }
+  }
+}

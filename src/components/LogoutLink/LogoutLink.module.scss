@@ -1,0 +1,21 @@
+.root {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  cursor: pointer;
+
+  .title {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    img {
+    }
+
+    p {
+    }
+  }
+
+  .arrow__btn {
+  }
+}

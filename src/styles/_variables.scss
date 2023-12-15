@@ -1,0 +1,30 @@
+// Цвета
+$primary-color: #3498db;
+$black-color: #494949;
+$btn-color: #5458ea;
+$grey-text: #c0c0c0;
+$bg-profile: #f0f0f0;
+$accent-color: #e74c3c;
+$link-bg: #f7f6f9;
+
+// Шрифты
+$base-font-family: 'Arial', sans-serif;
+$heading-font-family: 'Helvetica', sans-serif;
+
+// Размеры
+$base-font-size: 16px;
+$heading-1-font-size: 2em;
+$heading-2-font-size: 1.5em;
+$heading-3-font-size: 1.2em;
+
+// Отступы и поля
+$base-spacing: 8px;
+$padding-small: $base-spacing;
+$padding-medium: $base-spacing * 2;
+$padding-large: $base-spacing * 3;
+
+// Закругление углов
+$border-radius: 4px;
+
+// Тень
+$box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
