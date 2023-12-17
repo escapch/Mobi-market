@@ -39,14 +39,10 @@ const LoginScrean = ({ props, value }) => {
         // value(values);
         // props('createPass');
         try {
-          const response = await axios.post(
-            checkUserUrl,
-            {
-              email: values.email,
-              username: values.name,
-            },
-            { withCredentials: true },
-          );
+          const response = await axios.post(checkUserUrl, {
+            email: values.email,
+            username: values.name,
+          });
 
           if (response.status === 200) {
             const data = await response.data;

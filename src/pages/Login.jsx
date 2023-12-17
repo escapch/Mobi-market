@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { useFormik } from 'formik';
 import { Link, useNavigate } from 'react-router-dom';
 import AuthBg from '../components/AauthBg';
+import eyeDisable from '../assets/icons/eye-disable.svg';
+import eye from '../assets/icons/eye.svg';
 import { loginSchema } from '../schemas';
 import { ToastContainer, toast } from 'react-toastify';
 import { useDispatch } from 'react-redux';
@@ -13,7 +15,8 @@ import axios from 'axios';
 const LoginPage = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-
+  const [showPassword, setShowPassword] = useState(false);
+  const [a, setA] = useState(false);
   const url = 'https://neobook.online/mobi-market/users/login/';
 
   const notify = (errorMessage) => {
@@ -38,12 +41,13 @@ const LoginPage = () => {
     handleChange,
     handleSubmit,
     resetForm,
+    isValid,
   } = useFormik({
     initialValues: {
       username: '',
       password: '',
     },
-    // validationSchema: loginSchema,
+    validationSchema: loginSchema,
     onSubmit: async () => {
       try {
         const response = await axios.post(url, {
@@ -54,20 +58,15 @@ const LoginPage = () => {
         if (response.status !== 200) {
           throw new Error('Login failed');
         }
-        console.log('пока нормально');
         const data = await response.data;
-        axios.defaults.headers.common['Authorization'] = `Bearer ${data['token']}`;
         console.log(data);
-        localStorage.setItem(
-          'user',
-          JSON.stringify({ userName: values.username, email: data.email }),
-        );
         dispatch(setUser({ userName: values.username, email: data.email }));
 
-        const token = data.access;
-        console.log(token);
+        localStorage.setItem('token', data.access);
+        localStorage.setItem('refreshToken', data.refresh);
 
-        localStorage.setItem('token', token);
+        axios.defaults.headers.common['Authorization'] = `Bearer ${data.access}`;
+
         resetForm();
         navigate('/profile');
       } catch (error) {
@@ -77,6 +76,9 @@ const LoginPage = () => {
     },
   });
 
+  const isShowPassword = () => {
+    setShowPassword((prevShowPassword) => !prevShowPassword);
+  };
   return (
     <div className="root">
       <div className="login__block">
@@ -105,7 +107,7 @@ const LoginPage = () => {
               <input
                 id="password"
                 name="password"
-                type="password"
+                type={showPassword ? 'text' : 'password'}
                 onChange={handleChange}
                 value={values.password}
                 className={errors.password && touched.password ? 'error-input' : ''}
@@ -115,13 +117,25 @@ const LoginPage = () => {
               <label htmlFor="password" className={values.password ? 'active' : ''}>
                 Пароль
               </label>
-              {errors.password && touched.password ? <p>{errors.password}</p> : ''}
+              <img
+                className="password__eye"
+                src={showPassword ? eye : eyeDisable}
+                alt=""
+                onClick={isShowPassword}
+              />
             </div>
+            {/* {errors.password && touched.password ? <p>{errors.password}</p> : ''} */}
 
             <Link className="forgetPass" to="#">
               Забыли пароль
             </Link>
-            <button className="login__btn" type="submit">
+            <button
+              className={`login__btn ${
+                !values.username || !values.password ? 'login__disabled' : 'login__activated'
+              }`}
+              type="submit"
+              disabled={!isValid || !values.username || !values.password}
+            >
               Войти
             </button>
           </form>
@@ -130,7 +144,6 @@ const LoginPage = () => {
           </Link>
         </div>
       </div>
-
       <ToastContainer
         position="top-right"
         autoClose={3000}

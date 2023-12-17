@@ -18,7 +18,8 @@ body {
 [class*='__btn'] {
   font-weight: 700;
   border-radius: 80px;
-  background: $btn-color;
+  background: $disabled-btn;
+  border: 0.5px solid #c0c0c0;
   width: 20rem;
   padding: 10px;
   color: #fff;
@@ -34,4 +35,12 @@ body {
   display: flex;
   align-items: center;
   gap: 15px;
+}
+
+// [class*='__disabled'] {
+//   background: $disabled-btn;
+// }
+
+[class*='__activated'] {
+  background: $btn-color;
 }

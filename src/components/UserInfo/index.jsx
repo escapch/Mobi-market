@@ -5,14 +5,14 @@ import { selectUser } from '../../redux/slice/userSlice';
 
 const UserInfo = () => {
   // const user = useSelector(selectUser);
-  const user = JSON.parse(localStorage.getItem('user'));
+  // const user = JSON.parse(localStorage.getItem('user'));
 
   return (
     <div className={style.root}>
       <img src={userImg} alt="" />
       <div className={style.user__info}>
-        <p className={style.name}>{user.userName}</p>
-        <p className={style.email}>{user.email}</p>
+        {/* <p className={style.name}>{user.userName}</p>
+        <p className={style.email}>{user.email}</p> */}
       </div>
     </div>
   );
