@@ -1,14 +1,19 @@
 import { useFormik } from 'formik';
 import backIcon from '../assets/icons/backIcon.svg';
-import { Link } from 'react-router-dom';
+import { Link, Navigate } from 'react-router-dom';
 import { signupSchema } from '../schemas';
 import { ToastContainer, toast } from 'react-toastify';
 
 import 'react-toastify/dist/ReactToastify.css';
+import { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { setUser } from '../redux/slice/userSlice';
+import axios from 'axios';
 
 const LoginScrean = ({ props, value }) => {
-  const notify = () => {
-    toast.error('Неверный логин или почта', {
+  const [navigate, setNavigate] = useState(false);
+  const notify = (text) => {
+    toast.error(text, {
       position: 'top-right',
       autoClose: 3000,
       hideProgressBar: false,
@@ -19,12 +24,10 @@ const LoginScrean = ({ props, value }) => {
       theme: 'colored',
     });
   };
+  const checkUserUrl = 'https://neobook.online/mobi-market/users/check-user/';
 
-  const onSubmit = async (values) => {
-    value(values);
-    props('createPass');
-    notify();
-  };
+  const dispatch = useDispatch();
+
   const { values, errors, touched, isSubmitting, handleBlur, handleChange, handleSubmit } =
     useFormik({
       initialValues: {
@@ -32,7 +35,38 @@ const LoginScrean = ({ props, value }) => {
         email: '',
       },
       validationSchema: signupSchema,
-      onSubmit,
+      onSubmit: async (values) => {
+        // value(values);
+        // props('createPass');
+        try {
+          const response = await axios.post(
+            checkUserUrl,
+            {
+              email: values.email,
+              username: values.name,
+            },
+            { withCredentials: true },
+          );
+
+          if (response.status === 200) {
+            const data = await response.data;
+            // axios.defaults.headers.common['Authorization'] = `Bearer ${data['token']}`;
+            if (data.username && data.email) {
+              notify('Данный пользователь уже зарегистрирован');
+            } else {
+              console.log();
+              props('createPass');
+              console.log(values.name);
+              dispatch(setUser({ userName: values.name, email: values.email }));
+            }
+          } else {
+            console.log(response);
+          }
+        } catch (error) {
+          notify(error.message);
+          console.error('Error during registration:', JSON.stringify(error.message));
+        }
+      },
     });
   console.log(errors);
 
@@ -96,6 +130,18 @@ const LoginScrean = ({ props, value }) => {
           Далее
         </button>
       </form>
+      <ToastContainer
+        position="top-right"
+        autoClose={3000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="colored"
+      />
     </div>
   );
 };

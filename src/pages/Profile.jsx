@@ -3,8 +3,13 @@ import LogoutLink from '../components/LogoutLink';
 import MyProductLink from '../components/MyProductLink';
 import UserProfile from '../components/UserInfo';
 import BackLink from '../components/backLink';
+import { useSelector } from 'react-redux';
+import { selectUser } from '../redux/slice/userSlice';
+import userImg from '../assets/icons/userimg.svg';
 
 const Profile = () => {
+  const user = useSelector(selectUser);
+
   return (
     <div className="profile__content">
       <div className="profile__block">
@@ -36,7 +41,17 @@ const Profile = () => {
                 <p>Профиль</p>
               </div>
             </div>
-            
+          </div>
+          <div className="user__data">
+            <div className="user__img">
+              <img src={userImg} alt="user image" />
+              <div className="choose__photo">Выбрать фотографию</div>
+            </div>
+            <form>
+              <input type="text" />
+              <input type="text" />
+              <input type="text" />
+            </form>
           </div>
         </div>
       </div>

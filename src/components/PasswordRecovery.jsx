@@ -1,11 +1,20 @@
 import { useFormik } from 'formik';
 import lock from '../assets/icons/CreatePass.svg';
 import { ToastContainer, toast } from 'react-toastify';
-import { loginSchema, passwordSchema } from '../schemas';
+import { passwordSchema } from '../schemas';
+import { useSelector } from 'react-redux';
+import { selectUser } from '../redux/slice/userSlice';
+import { Navigate } from 'react-router-dom';
+import { useState } from 'react';
 
-const PasswordRecovery = ({ value, registerUser }) => {
-  const notify = () => {
-    toast.error('Неверный логин или почта', {
+const PasswordRecovery = ({ registerUser }) => {
+  const [navigate, setNavigate] = useState(false);
+  const user = useSelector(selectUser);
+  console.log(user);
+  const url = 'https://neobook.online/mobi-market/users/register/';
+
+  const notify = (text) => {
+    toast.error(text, {
       position: 'top-right',
       autoClose: 3000,
       hideProgressBar: false,
@@ -17,12 +26,6 @@ const PasswordRecovery = ({ value, registerUser }) => {
     });
   };
 
-  const onSubmit = async (values) => {
-    value(values);
-    console.log(values);
-    notify();
-  };
-
   const { values, errors, touched, isSubmitting, handleBlur, handleChange, handleSubmit } =
     useFormik({
       initialValues: {
@@ -30,9 +33,40 @@ const PasswordRecovery = ({ value, registerUser }) => {
         confirm_password: '',
       },
       validationSchema: passwordSchema,
-      onSubmit,
-    });
+      onSubmit: async () => {
+        try {
+          const response = await fetch(url, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              email: user.email,
+              username: user.userName,
+              password: values.password,
+              confirm_password: values.confirm_password,
+            }),
+          });
 
+          if (response.ok) {
+            const data = await response.json();
+            console.log(data);
+            setNavigate(true);
+            console.log('User registered successfully');
+          } else {
+            const errorData = await response.json(); // Parse the response body as JSON
+            throw new Error(`Registration failed: ${JSON.stringify(errorData)}`);
+          }
+        } catch (error) {
+          notify(error.message);
+          console.error('Error during registration:', JSON.stringify(error.message));
+        }
+      },
+    });
+  if (navigate) {
+    return <Navigate to={'/login'} />;
+  }
+  notify(errors);
   return (
     <div className="createPass__content">
       <div className="title">
@@ -45,11 +79,24 @@ const PasswordRecovery = ({ value, registerUser }) => {
       <div className="form__block">
         <form
           onSubmit={(e) => {
-            e.preventDefault(); // Prevent default form submission behavior
+            e.preventDefault();
             handleSubmit(e);
           }}
         >
-          {/* {errors.email && touched.email && <p className="error">{errors.email}</p>} */}
+          {errors.password && touched.password && (
+            <ToastContainer
+              position="top-right"
+              autoClose={3000}
+              hideProgressBar={false}
+              newestOnTop={false}
+              closeOnClick
+              rtl={false}
+              pauseOnFocusLoss
+              draggable
+              pauseOnHover
+              theme="colored"
+            />
+          )}
           <div className="floatLabel">
             <input
               id="password"
@@ -64,6 +111,7 @@ const PasswordRecovery = ({ value, registerUser }) => {
             <label htmlFor="password" className={values.password ? 'active' : ''}>
               Пароль
             </label>
+            {errors.password && touched.password && <p>{errors.message}</p>}
           </div>
           <div className="floatLabel">
             <input
@@ -77,10 +125,24 @@ const PasswordRecovery = ({ value, registerUser }) => {
             <span className="highlight"></span>
             <span className="bar"></span>
             <label htmlFor="confirm_password" className={values.confirm_password ? 'active' : ''}>
-              Пароль
+              Подтвердите пароль
             </label>
           </div>
-          <button className="createPass__btn" type="submit" onClick={registerUser}>
+          {errors.confirm_password && touched.confirm_password && (
+            <ToastContainer
+              position="top-right"
+              autoClose={3000}
+              hideProgressBar={false}
+              newestOnTop={false}
+              closeOnClick
+              rtl={false}
+              pauseOnFocusLoss
+              draggable
+              pauseOnHover
+              theme="colored"
+            />
+          )}
+          <button className="createPass__btn" type="submit">
             Далее
           </button>
         </form>

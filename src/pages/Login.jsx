@@ -4,13 +4,16 @@ import { Link, useNavigate } from 'react-router-dom';
 import AuthBg from '../components/AauthBg';
 import { loginSchema } from '../schemas';
 import { ToastContainer, toast } from 'react-toastify';
+import { useDispatch } from 'react-redux';
+import { setUser } from '../redux/slice/userSlice';
 
 import 'react-toastify/dist/ReactToastify.css';
+import axios from 'axios';
 
 const LoginPage = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
-  const [isUsernameAvailable, setIsUsernameAvailable] = useState(null);
   const url = 'https://neobook.online/mobi-market/users/login/';
 
   const notify = (errorMessage) => {
@@ -43,27 +46,27 @@ const LoginPage = () => {
     // validationSchema: loginSchema,
     onSubmit: async () => {
       try {
-        console.log('точно нормально');
-        const response = await fetch(url, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            username: values.username,
-            password: values.password,
-          }),
+        const response = await axios.post(url, {
+          username: values.username,
+          password: values.password,
         });
 
-        if (!response.ok) {
+        if (response.status !== 200) {
           throw new Error('Login failed');
         }
-
         console.log('пока нормально');
-        const data = await response.json();
+        const data = await response.data;
+        axios.defaults.headers.common['Authorization'] = `Bearer ${data['token']}`;
         console.log(data);
+        localStorage.setItem(
+          'user',
+          JSON.stringify({ userName: values.username, email: data.email }),
+        );
+        dispatch(setUser({ userName: values.username, email: data.email }));
+
         const token = data.access;
         console.log(token);
+
         localStorage.setItem('token', token);
         resetForm();
         navigate('/profile');

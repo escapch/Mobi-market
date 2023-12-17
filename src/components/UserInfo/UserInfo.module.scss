@@ -3,8 +3,12 @@
   display: flex;
   align-items: center;
   gap: 15px;
-  
+
   .user__info {
     color: $black-color;
+  }
+
+  img {
+    max-width: 40px;
   }
 }
