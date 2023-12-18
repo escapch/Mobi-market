@@ -1,14 +1,23 @@
+// В файле baseSlice.js
 import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
-  baseUrl: 'https://neobook.online/mobi-market/',
+  navigate: false,
 };
 
-export const base = createSlice({
-  name: 'baseUrl',
+export const navigateSlice = createSlice({
+  name: 'navigate',
   initialState,
-  reducers: {},
+  reducers: {
+    setNavigate(state, action) {
+      state.navigate = action.payload;
+    },
+  },
 });
 
-export const baseUrl = (state) => state.base?.baseUrl;
-export default base.reducer;
+export const { setNavigate } = navigateSlice.actions;
+
+export const navigate = (state) => state.navigateSlice?.navigate;
+export const selectNavigate = (state) => state.navigate;
+
+export default navigateSlice.reducer;

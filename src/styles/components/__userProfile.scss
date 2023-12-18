@@ -1,0 +1,53 @@
+@import '../variables';
+.user__profile {
+  display: flex;
+  flex-direction: column;
+  //   align-items: center;
+
+  .user__data {
+    display: flex;
+    flex-direction: column;
+
+    .user__img {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin: 50px;
+      button {
+        color: $btn-color;
+      }
+    }
+
+    form {
+      .form__content {
+        display: flex;
+        flex-direction: column;
+        padding: 6px 16px;
+        border-radius: 12px;
+        background: #fff;
+        max-width: 1200px;
+        gap: 6px;
+      }
+
+      input {
+        width: 100%;
+        padding: 10px 0px;
+        border-bottom: 1px solid #f7f6f9;
+
+        &placeholder {
+          color: #c0c0c0;
+        }
+      }
+      .second__block {
+        .add__phone {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          width: 100%;
+          padding: 10px 0px;
+          border-bottom: 1px solid #f7f6f9;
+        }
+      }
+    }
+  }
+}

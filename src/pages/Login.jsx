@@ -16,7 +16,7 @@ const LoginPage = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [showPassword, setShowPassword] = useState(false);
-  const [a, setA] = useState(false);
+
   const url = 'https://neobook.online/mobi-market/users/login/';
 
   const notify = (errorMessage) => {

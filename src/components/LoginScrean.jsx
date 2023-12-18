@@ -50,7 +50,6 @@ const LoginScrean = ({ props, value }) => {
             if (data.username && data.email) {
               notify('Данный пользователь уже зарегистрирован');
             } else {
-              console.log();
               props('createPass');
               console.log(values.name);
               dispatch(setUser({ userName: values.name, email: values.email }));
