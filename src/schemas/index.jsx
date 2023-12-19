@@ -31,3 +31,7 @@ export const passwordSchema = yup.object().shape({
     .oneOf([yup.ref('password'), null], 'Пароли должны совпадать')
     .required('*'),
 });
+
+export const phoneSchema = yup.object().shape({
+  phone: yup.number().min(10, 'Must be more than 10 characters').required('This field is requried'),
+});

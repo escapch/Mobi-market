@@ -5,15 +5,16 @@ import { setNavigate } from '../redux/slice/baseSlice';
 import userImg from '../assets/icons/userimg.svg';
 import BackLink from '../components/backLink';
 import axios from 'axios';
-import { selectUser, setUser } from '../redux/slice/userSlice';
+import { setUser } from '../redux/slice/userSlice';
+import { openModal } from '../redux/slice/modal.slice';
 
 const UserProfile = ({ navigate }) => {
-  const user = useSelector(selectUser);
-
   const dispatch = useDispatch();
 
-  const openPhoneModal = () => {};
-  
+  const openPhoneModal = () => {
+    dispatch(openModal(true));
+    console.log(openModal);
+  };
 
   useEffect(() => {
     (async () => {

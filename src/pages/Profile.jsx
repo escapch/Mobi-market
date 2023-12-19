@@ -3,24 +3,28 @@ import LogoutLink from '../components/LogoutLink';
 import MyProductLink from '../components/MyProductLink';
 import UserProfile from '../components/UserProfile';
 
-import userImg from '../assets/icons/userimg.svg';
-import { useEffect, useRef, useState } from 'react';
+import { useState } from 'react';
 import { Navigate } from 'react-router';
-import Modal from 'react-modal';
 import axios from 'axios';
+import { useSelector, useDispatch } from 'react-redux';
 
 import UserInfo from '../components/UserInfo';
 import NumberModal from '../components/Modals/NumberModal';
+
 const Profile = () => {
   const [navigate, setNavigate] = useState(false);
-  const [open, setOpen] = useState(false);
 
-  const handleClose = () => {
-    setOpen(false);
-  };
-  const openModal = () => {
-    setOpen(true);
-  };
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const modalIsOpen = useSelector((state) => state.modalSlice);
+
+  // const handleClose = () => {
+  //   setIsModalOpen(false);
+  // };
+  // const openModal = () => {
+  //   setIsModalOpen(true);
+  //   console.log(open);
+  // };
   const logout = async () => {
     try {
       const refreshToken = localStorage.getItem('refreshToken');
@@ -42,9 +46,9 @@ const Profile = () => {
   if (navigate) {
     return <Navigate to="/login" />;
   }
-
   return (
     <div className="profile__content">
+      {modalIsOpen && <NumberModal />}
       <div className="profile__block">
         <div className="block__nav">
           <div className="top">
@@ -61,7 +65,6 @@ const Profile = () => {
             <li onClick={logout}>
               <LogoutLink />
             </li>
-            <li onClick={openModal}>Open modal</li>
           </ul>
         </div>
       </div>
@@ -70,7 +73,6 @@ const Profile = () => {
           <UserProfile navigate={(e) => setNavigate(e)} />
         </div>
       </div>
-      {open && <NumberModal />}
     </div>
   );
 };
