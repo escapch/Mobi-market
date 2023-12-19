@@ -6,12 +6,21 @@ import UserProfile from '../components/UserProfile';
 import userImg from '../assets/icons/userimg.svg';
 import { useEffect, useRef, useState } from 'react';
 import { Navigate } from 'react-router';
+import Modal from 'react-modal';
 import axios from 'axios';
 
 import UserInfo from '../components/UserInfo';
+import NumberModal from '../components/Modals/NumberModal';
 const Profile = () => {
   const [navigate, setNavigate] = useState(false);
+  const [open, setOpen] = useState(false);
 
+  const handleClose = () => {
+    setOpen(false);
+  };
+  const openModal = () => {
+    setOpen(true);
+  };
   const logout = async () => {
     try {
       const refreshToken = localStorage.getItem('refreshToken');
@@ -52,6 +61,7 @@ const Profile = () => {
             <li onClick={logout}>
               <LogoutLink />
             </li>
+            <li onClick={openModal}>Open modal</li>
           </ul>
         </div>
       </div>
@@ -60,6 +70,7 @@ const Profile = () => {
           <UserProfile navigate={(e) => setNavigate(e)} />
         </div>
       </div>
+      {open && <NumberModal />}
     </div>
   );
 };

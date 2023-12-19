@@ -12,14 +12,19 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      margin: 50px;
-      button {
+      margin: 50px 0;
+
+      img {
+        margin-bottom: 12px;
+      }
+      .choose__photo {
+        cursor: pointer;
         color: $btn-color;
       }
     }
 
     form {
-      .form__content {
+      .first__block {
         display: flex;
         flex-direction: column;
         padding: 6px 16px;
@@ -39,6 +44,10 @@
         }
       }
       .second__block {
+        margin-top: 12px;
+        background: #fff;
+        padding: 6px 16px;
+        border-radius: 12px;
         .add__phone {
           display: flex;
           align-items: center;
@@ -46,6 +55,22 @@
           width: 100%;
           padding: 10px 0px;
           border-bottom: 1px solid #f7f6f9;
+
+          .add__phoneBtn {
+            cursor: pointer;
+            color: $btn-color;
+          }
+        }
+      }
+
+      .submit__button {
+        margin-top: 44px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        .done__btn {
+          align-self: center;
+          background: $btn-color;
         }
       }
     }

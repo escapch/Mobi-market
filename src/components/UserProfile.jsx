@@ -12,6 +12,9 @@ const UserProfile = ({ navigate }) => {
 
   const dispatch = useDispatch();
 
+  const openPhoneModal = () => {};
+  
+
   useEffect(() => {
     (async () => {
       try {
@@ -30,7 +33,7 @@ const UserProfile = ({ navigate }) => {
         navigate(true);
       }
     })();
-  }, [dispatch, navigate]);
+  }, [dispatch]);
 
   const {
     values,
@@ -67,11 +70,11 @@ const UserProfile = ({ navigate }) => {
       </div>
       <div className="user__data">
         <form onSubmit={handleSubmit}>
-            <div className="user__img">
-              <img src={userImg} alt="user image" />
-              <button className="choose__photo">Выбрать фотографию</button>
-            </div>
-          <div className="form__content">
+          <div className="user__img">
+            <img src={userImg} alt="user image" />
+            <div className="choose__photo">Выбрать фотографию</div>
+          </div>
+          <div className="first__block">
             <input
               type="text"
               placeholder="Имя"
@@ -104,11 +107,14 @@ const UserProfile = ({ navigate }) => {
               value={values.brtDay}
               placeholder="гггг-мм-дд"
             />
-            <div className="second__block">
-              <div className="add__phone">
-                <button>Добавить номер</button>
-                <p className="number">0(000) 000 000</p>
-                {/* <input
+          </div>
+          <div className="second__block">
+            <div className="add__phone">
+              <div className="add__phoneBtn" onClick={openPhoneModal}>
+                Добавить номер
+              </div>
+              <p className="number">0(000) 000 000</p>
+              {/* <input
               type="text"
               placeholder="0(000) 000 000"
               name="phoneNumber"
@@ -116,16 +122,20 @@ const UserProfile = ({ navigate }) => {
               onBlur={handleBlur}
               value={values.phoneNumber}
             /> */}
-              </div>
-              <input
-                type="email"
-                placeholder="email"
-                name="email"
-                onChange={handleChange}
-                onBlur={handleBlur}
-                value={values.email}
-              />
             </div>
+            <input
+              type="email"
+              placeholder="email"
+              name="email"
+              onChange={handleChange}
+              onBlur={handleBlur}
+              value={values.email}
+            />
+          </div>
+          <div className="submit__button">
+            <button className="done__btn" type="submit">
+              Закончить регистрацию
+            </button>
           </div>
         </form>
       </div>
