@@ -35,3 +35,7 @@ export const passwordSchema = yup.object().shape({
 export const phoneSchema = yup.object().shape({
   phone: yup.number().min(10, 'Must be more than 10 characters').required('This field is requried'),
 });
+
+export const codeSchema = yup.object().shape({
+  code: yup.number().min(4).max(4).required('This field is requried'),
+});

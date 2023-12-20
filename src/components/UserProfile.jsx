@@ -5,36 +5,31 @@ import { setNavigate } from '../redux/slice/baseSlice';
 import userImg from '../assets/icons/userimg.svg';
 import BackLink from '../components/backLink';
 import axios from 'axios';
-import { setUser } from '../redux/slice/userSlice';
+import { selectUser, setUser } from '../redux/slice/userSlice';
 import { openModal } from '../redux/slice/modal.slice';
 
 const UserProfile = ({ navigate }) => {
   const dispatch = useDispatch();
 
-  const openPhoneModal = () => {
-    dispatch(openModal(true));
-    console.log(openModal);
-  };
-
   useEffect(() => {
     (async () => {
       try {
         const { data } = await axios.get('https://neobook.online/mobi-market/users/me/');
-
+        values.email = data.email;
+        values.username = data.username;
         dispatch(
           setUser({
             userName: data.username,
             email: data.email,
           }),
         );
-        values.email = data.email;
-        values.username = data.username;
       } catch (e) {
         console.log('Error' + e);
         navigate(true);
       }
     })();
-  }, [dispatch]);
+  }, []);
+  const userData = useSelector(selectUser);
 
   const {
     values,
@@ -111,10 +106,10 @@ const UserProfile = ({ navigate }) => {
           </div>
           <div className="second__block">
             <div className="add__phone">
-              <div className="add__phoneBtn" onClick={openPhoneModal}>
+              <div className="add__phoneBtn" onClick={() => dispatch(openModal(true))}>
                 Добавить номер
               </div>
-              <p className="number">0(000) 000 000</p>
+              <p className="number">{'0(000) 000 000'}</p>
               {/* <input
               type="text"
               placeholder="0(000) 000 000"

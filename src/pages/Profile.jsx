@@ -6,25 +6,18 @@ import UserProfile from '../components/UserProfile';
 import { useState } from 'react';
 import { Navigate } from 'react-router';
 import axios from 'axios';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 
 import UserInfo from '../components/UserInfo';
 import NumberModal from '../components/Modals/NumberModal';
+import { selectUser } from '../redux/slice/userSlice';
 
 const Profile = () => {
   const [navigate, setNavigate] = useState(false);
 
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const modalIsOpen = useSelector((state) => state.modalReducer.modalIsOpen);
+  const userData = useSelector(selectUser);
 
-  const modalIsOpen = useSelector((state) => state.modalSlice);
-
-  // const handleClose = () => {
-  //   setIsModalOpen(false);
-  // };
-  // const openModal = () => {
-  //   setIsModalOpen(true);
-  //   console.log(open);
-  // };
   const logout = async () => {
     try {
       const refreshToken = localStorage.getItem('refreshToken');
@@ -42,10 +35,10 @@ const Profile = () => {
       console.error('Logout error:', error);
     }
   };
-  console.log(navigate);
   if (navigate) {
     return <Navigate to="/login" />;
   }
+
   return (
     <div className="profile__content">
       {modalIsOpen && <NumberModal />}
@@ -53,7 +46,7 @@ const Profile = () => {
         <div className="block__nav">
           <div className="top">
             <UserInfo />
-            <h3>Hi</h3>
+            <h3>Hi{userData.userName}</h3>
           </div>
           <ul className="links">
             <li>

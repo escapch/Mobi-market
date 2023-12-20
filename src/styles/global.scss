@@ -54,10 +54,9 @@ body {
   padding: 44px 16px;
   border-radius: 40px;
   background: #fff;
-  gap: 42px;
+  gap: 35px;
   margin: 0 auto;
   margin-top: 60px;
-
   width: 560px;
   outline: 0;
   h2 {
@@ -66,10 +65,17 @@ body {
     font-weight: 700;
   }
 
+  h3 {
+    margin-top: -20px;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 500;
+  }
   p {
     color: var(--Grey, #c0c0c0);
     font-size: 16px;
     font-weight: 400;
+    text-align: center;
   }
 
   form {
@@ -81,6 +87,10 @@ body {
       font-weight: 700;
       line-height: 34px;
       text-align: center;
+      margin-bottom: 20px;
+    }
+    button {
+      cursor: pointer;
     }
   }
 }

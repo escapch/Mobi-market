@@ -9,16 +9,14 @@ axios.interceptors.response.use(
       refresh = true;
 
       const refreshToken = localStorage.getItem('refreshToken');
-      console.log('RefreshToken' + refreshToken);
+
       if (refreshToken) {
         try {
           const response = await axios.post(
             'https://neobook.online/mobi-market/users/login/refresh/',
             { refresh: refreshToken },
           );
-          console.log(response);
           const newAccessToken = response.data.access;
-          console.log(newAccessToken);
           if (newAccessToken) {
             axios.defaults.headers.common['Authorization'] = `Bearer ${newAccessToken}`;
             // Перепрошиваем оригинальный запрос

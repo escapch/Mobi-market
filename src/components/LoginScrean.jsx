@@ -36,8 +36,6 @@ const LoginScrean = ({ props, value }) => {
       },
       validationSchema: signupSchema,
       onSubmit: async (values) => {
-        // value(values);
-        // props('createPass');
         try {
           const response = await axios.post(checkUserUrl, {
             email: values.email,

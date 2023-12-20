@@ -6,7 +6,7 @@ import modalReducer from './slice/modal.slice';
 const rootReducer = combineReducers({
   user: userReducer,
   navigate: navigateReducer,
-  modal: modalReducer,
+  modalReducer,
 });
 
 export default rootReducer;
