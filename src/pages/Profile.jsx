@@ -3,20 +3,38 @@ import LogoutLink from '../components/LogoutLink';
 import MyProductLink from '../components/MyProductLink';
 import UserProfile from '../components/UserProfile';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Navigate } from 'react-router';
 import axios from 'axios';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import UserInfo from '../components/UserInfo';
 import NumberModal from '../components/Modals/NumberModal';
-import { selectUser } from '../redux/slice/userSlice';
+import { selectUser, setUser } from '../redux/slice/userSlice';
 
 const Profile = () => {
   const [navigate, setNavigate] = useState(false);
+  const dispatch = useDispatch();
 
   const modalIsOpen = useSelector((state) => state.modalReducer.modalIsOpen);
   const userData = useSelector(selectUser);
+
+  useEffect(() => {
+    (async () => {
+      try {
+        const { data } = await axios.get('https://neobook.online/mobi-market/users/me/');
+        dispatch(
+          setUser({
+            userName: data.username,
+            email: data.email,
+          }),
+        );
+      } catch (e) {
+        console.log('Error' + e);
+        setNavigate(true);
+      }
+    })();
+  }, []);
 
   const logout = async () => {
     try {
@@ -41,7 +59,6 @@ const Profile = () => {
 
   return (
     <div className="profile__content">
-      {modalIsOpen && <NumberModal />}
       <div className="profile__block">
         <div className="block__nav">
           <div className="top">
@@ -63,9 +80,10 @@ const Profile = () => {
       </div>
       <div className="profile__block2">
         <div className="block__main">
-          <UserProfile navigate={(e) => setNavigate(e)} />
+          <UserProfile />
         </div>
       </div>
+      {modalIsOpen && <NumberModal />}
     </div>
   );
 };

@@ -42,7 +42,6 @@ const NumberModal = () => {
         if (response.status !== 200) {
           throw new Error('Add phone failed');
         }
-        dispatch(setUser({ tel: values.phone }));
         setView('second');
       } catch (error) {
         console.error('Error during login:', error.message);
@@ -63,6 +62,7 @@ const NumberModal = () => {
       if (response.status !== 200) {
         throw new Error('Verification failed');
       }
+      dispatch(setUser({ tel: values.phone }));
       handleCloseModal();
       resetForm();
       console.log('Verification successful');
