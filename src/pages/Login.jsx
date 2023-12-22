@@ -60,7 +60,16 @@ const LoginPage = () => {
         }
         const data = await response.data;
         console.log(data);
-        dispatch(setUser({ userName: data.username, email: data.email }));
+        dispatch(
+          setUser({
+            userName: data.username,
+            email: data.email,
+            date: data.birth_date,
+            firstName: data.first_name,
+            lastName: data.last_name,
+            tel: data.phone,
+          }),
+        );
 
         localStorage.setItem('token', data.access);
         localStorage.setItem('refreshToken', data.refresh);
