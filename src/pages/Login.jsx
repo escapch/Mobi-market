@@ -77,7 +77,7 @@ const LoginPage = () => {
         axios.defaults.headers.common['Authorization'] = `Bearer ${data.access}`;
 
         resetForm();
-        navigate('/profile');
+        navigate('/home');
       } catch (error) {
         console.error('Error during login:', error.message);
         notify('Неверный логин или пароль');

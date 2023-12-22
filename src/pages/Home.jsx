@@ -1,43 +1,67 @@
-import { useSelector } from 'react-redux';
-import Header from '../components/Header';
-
+import { useSelector, useDispatch } from 'react-redux';
 import axios from 'axios';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Navigate } from 'react-router';
-// import { useSelector } from 'react-redux';
+
+import Header from '../components/Header';
+import Card from '../components/Card';
+import { selectProduct, setProducts } from '../redux/slice/productSlice';
+import CardModal from '../components/Modals/CardModal';
 
 const Home = () => {
   const [navigate, setNavigate] = useState(false);
+  const [pagination, setPagination] = useState({
+    page: 1,
+    count: 0,
+    next: '',
+    previous: '',
+  });
+  const [modal, setModal] = useState(false);
+  const dispatch = useDispatch();
+  const product = useSelector(selectProduct);
 
-  const token = localStorage.getItem('token');
+  useEffect(() => {
+    (async () => {
+      try {
+        const { data } = await axios.get(
+          `https://neobook.online/mobi-market/products?page=${pagination.page}&limit=32`,
+        );
+        console.log(data);
+        setPagination({
+          page: data.page,
+          count: data.count,
+          next: data.next,
+          previous: data.previous,
+        });
 
-  // const getData = async () => {
-  //   const axiosInstance = axios.create({
-  //     baseURL: url,
-  //     headers: {
-  //       Authorization: `Bearer ${token}`,
-  //       'Content-Type': 'application/json',
-  //     },
-  //   });
+        dispatch(setProducts(data.results));
+        console.log(data.results);
+      } catch (e) {
+        console.log('Error' + e);
+        setNavigate(true);
+      }
+    })();
+  }, []);
 
-  //   axiosInstance
-  //     .get('/product')
-  //     .then((response) => {
-  //       console.log(response.data);
-  //     })
-  //     .catch((error) => {
-  //       console.error('Error:', error);
-  //     });
-  // };
+  const openModal = (id) => {
+    console.log(product[id]);
+  };
 
   return (
-    <div className="home__wrapper">
+    <div className="home">
       <div className="home__container">
-        <div className="home__content">
-          <div className="home__header">
-            <Header />
+        <header className="home__header">
+          <Header />
+        </header>
+        <section className="home__content">
+          <div className="products">
+            {product.map((item, i) => (
+              <Card {...item} key={item.id} onClick={() => openModal(i)} />
+            ))}
+            {modal && <CardModal />}
           </div>
-        </div>
+        </section>
+        <div className="home__pagination">123</div>
       </div>
     </div>
   );

@@ -13,7 +13,9 @@ const Header = () => {
         <Link to={'/myProduct'}>
           <button className="myProduct__btn">Подать объявление</button>
         </Link>
-        <UserInfo />
+        <Link to={'/profile'}>
+          <UserInfo />
+        </Link>
       </div>
     </div>
   );

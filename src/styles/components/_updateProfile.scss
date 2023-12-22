@@ -1,0 +1,60 @@
+@import '../variables';
+.new-profile {
+  display: flex;
+  flex-direction: column;
+  //   align-items: center;
+
+  .user__data {
+    display: flex;
+    flex-direction: column;
+
+    .user__img {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin: 50px 0;
+
+      img {
+        margin-bottom: 12px;
+      }
+      .choose__photo {
+        cursor: pointer;
+        color: $btn-color;
+      }
+    }
+    .first__block {
+      display: flex;
+      flex-direction: column;
+      padding: 6px 16px;
+      border-radius: 12px;
+      background: #fff;
+      max-width: 1200px;
+      gap: 6px;
+    }
+
+    li {
+      width: 100%;
+      padding: 10px 0px;
+      border-bottom: 1px solid #f7f6f9;
+    }
+    .second__block {
+      margin-top: 12px;
+      background: #fff;
+      padding: 6px 16px;
+      border-radius: 12px;
+      .add__phone {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        width: 100%;
+        padding: 10px 0px;
+        border-bottom: 1px solid #f7f6f9;
+
+        .add__phoneBtn {
+          cursor: pointer;
+          color: $btn-color;
+        }
+      }
+    }
+  }
+}
