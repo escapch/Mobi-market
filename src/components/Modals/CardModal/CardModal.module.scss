@@ -1,28 +1,36 @@
-.card {
-  cursor: pointer;
+.card__modalContent {
   display: flex;
-  border-radius: 12px;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   background: #fff;
+  padding: 16px 0 44px 0;
+  border-radius: 40px;
+  gap: 35px;
+  margin: 0 auto;
+  margin-top: 60px;
+  max-width: 564px;
+  outline: 0;
+  cursor: pointer;
   box-shadow: 0px 2px 12px 0px rgba(73, 73, 73, 0.1);
-  width: 154px;
-  height: 184px;
-  &__content {
+  .card__content {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    padding: 6px;
     gap: 5px;
   }
 
-  &__img {
+  .card__img {
     border-radius: 6px;
     overflow: hidden;
-    width: 142px;
-    height: 82px;
+    width: 532px;
+    height: 320px;
+    border-radius: 24px;
 
     img {
       width: 100%;
       height: 100%;
+      overflow: hidden;
     }
   }
   &__title {
@@ -47,5 +55,13 @@
       font-weight: 400;
       color: #c1c1c1;
     }
+  }
+}
+
+.closeButton {
+  display: flex;
+  justify-content: end;
+  svg {
+    cursor: pointer;
   }
 }

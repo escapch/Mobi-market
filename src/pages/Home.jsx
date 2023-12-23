@@ -7,6 +7,7 @@ import Header from '../components/Header';
 import Card from '../components/Card';
 import { selectProduct, setProducts } from '../redux/slice/productSlice';
 import CardModal from '../components/Modals/CardModal';
+import { openModal } from '../redux/slice/modal.slice';
 
 const Home = () => {
   const [navigate, setNavigate] = useState(false);
@@ -16,9 +17,11 @@ const Home = () => {
     next: '',
     previous: '',
   });
-  const [modal, setModal] = useState(false);
+
+  const [index, setIndex] = useState(0);
   const dispatch = useDispatch();
   const product = useSelector(selectProduct);
+  const modalIsOpen = useSelector((state) => state.modalReducer.modalIsOpen);
 
   useEffect(() => {
     (async () => {
@@ -38,13 +41,15 @@ const Home = () => {
         console.log(data.results);
       } catch (e) {
         console.log('Error' + e);
-        setNavigate(true);
+        // setNavigate(true);
       }
     })();
   }, []);
 
-  const openModal = (id) => {
-    console.log(product[id]);
+  const isOpenModal = (id) => {
+    setIndex(id);
+
+    dispatch(openModal(true));
   };
 
   return (
@@ -56,9 +61,9 @@ const Home = () => {
         <section className="home__content">
           <div className="products">
             {product.map((item, i) => (
-              <Card {...item} key={item.id} onClick={() => openModal(i)} />
+              <Card {...item} key={item.id} onClick={() => isOpenModal(i)} />
             ))}
-            {modal && <CardModal />}
+            {modalIsOpen && <CardModal value={product[index]} />}
           </div>
         </section>
         <div className="home__pagination">123</div>

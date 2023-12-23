@@ -5,7 +5,7 @@ import { useFormik } from 'formik';
 import axios from 'axios';
 import { useSelector, useDispatch } from 'react-redux';
 
-import { codeSchema, phoneSchema } from '../../schemas';
+import { phoneSchema } from '../../schemas';
 import { closeModal } from '../../redux/slice/modal.slice';
 import { setUser } from '../../redux/slice/userSlice';
 import phone from '../../assets/icons/phone.svg';
@@ -48,6 +48,7 @@ const NumberModal = () => {
       }
     },
   });
+  
   const handleCloseModal = () => {
     dispatch(closeModal(false));
   };
