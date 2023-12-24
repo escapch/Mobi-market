@@ -1,5 +1,5 @@
 import { Modal } from '@mui/material';
-import { selectProduct } from '../../../redux/slice/productSlice';
+import { selectProduct, setProducts } from '../../../redux/slice/productSlice';
 import style from './CardModal.module.scss';
 import { useDispatch, useSelector } from 'react-redux';
 import { closeModal } from '../../../redux/slice/modal.slice';
@@ -7,29 +7,6 @@ import { closeModal } from '../../../redux/slice/modal.slice';
 const CardModal = ({ value }) => {
   const dispatch = useDispatch();
   const modalIsOpen = useSelector((state) => state.modalReducer.modalIsOpen);
-  console.log(value.user);
-  useEffect(() => {
-    (async () => {
-      try {
-        const { data } = await axios.get(
-          `https://neobook.online/mobi-market/user`,
-        );
-        console.log(data);
-        setPagination({
-          page: data.page,
-          count: data.count,
-          next: data.next,
-          previous: data.previous,
-        });
-
-        dispatch(setProducts(data.results));
-        console.log(data.results);
-      } catch (e) {
-        console.log('Error' + e);
-        // setNavigate(true);
-      }
-    })();
-  }, []);
 
   return (
     <Modal
@@ -63,8 +40,8 @@ const CardModal = ({ value }) => {
           <div className={style.card__price}>
             <p>{value.price} $</p>
           </div>
-          <div className={style.card__title}>
-            <p>{value.name}</p>
+          <div className={style.card__tel}>
+            <p>+996500 567-657</p>
           </div>
           <div className={style.card__favorit}>
             <svg
@@ -79,19 +56,17 @@ const CardModal = ({ value }) => {
                 fill="#F34545"
               />
             </svg>
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-              fill="none"
-            >
-              <path
-                d="M22 8.71004C22 10.13 21.45 11.46 20.45 12.46L12.6 20.31C12.56 20.35 12.45 20.44 12.4 20.47C12.28 20.55 12.14 20.59 12 20.59C11.86 20.59 11.71 20.55 11.59 20.47C11.53 20.43 11.48 20.39 11.42 20.33L3.56 12.46C2.55 11.46 2 10.13 2 8.71004C2 7.29004 2.55 5.96004 3.56 4.96004C5.63 2.90004 8.99 2.90004 11.06 4.96004L12 5.91004L12.95 4.96004C15.02 2.90004 18.38 2.90004 20.44 4.96004C21.45 5.96004 22 7.29004 22 8.71004Z"
-                fill="#C0C0C0"
-              />
-            </svg>
-            <span>{value.like_count}</span>
+            <span>Нравится {value.like_count} М</span>
+          </div>
+          <div className={style.card__title}>
+            <p>{value.name}</p>
+          </div>
+          <div className={style.card__shortDesc}>
+            <p>{value.short_description}</p>
+          </div>
+          <div className={style.card__fullDesc}>
+            <h2>Детальное описание</h2>
+            <p>{value.full_description}</p>
           </div>
         </div>
       </div>

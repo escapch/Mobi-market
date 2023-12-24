@@ -7,6 +7,7 @@ const initialState = {
   date: '',
   firstName: '',
   lastName: '',
+  photo: null,
 };
 
 export const userSlice = createSlice({

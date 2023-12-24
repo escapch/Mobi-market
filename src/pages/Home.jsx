@@ -17,7 +17,6 @@ const Home = () => {
     next: '',
     previous: '',
   });
-
   const [index, setIndex] = useState(0);
   const dispatch = useDispatch();
   const product = useSelector(selectProduct);
@@ -48,7 +47,6 @@ const Home = () => {
 
   const isOpenModal = (id) => {
     setIndex(id);
-
     dispatch(openModal(true));
   };
 

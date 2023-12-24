@@ -32,6 +32,7 @@ const UserProfile = () => {
       date: '',
       tel: '',
       email: '',
+      photo: '',
     },
     onSubmit: async () => {
       try {
@@ -41,13 +42,19 @@ const UserProfile = () => {
           username: userData.userName,
           birth_date: values.date,
           email: userData.email,
+          photo: values.photo,
         });
 
         if (response.status !== 200) {
           throw new Error('Updating failed');
         }
         dispatch(
-          setUser({ firstName: values.firstName, lastName: values.lastName, date: values.date }),
+          setUser({
+            firstName: values.firstName,
+            lastName: values.lastName,
+            date: values.date,
+            photo: values.photo,
+          }),
         );
         resetForm();
         console.log('Updating successful');
@@ -76,7 +83,14 @@ const UserProfile = () => {
           <form onSubmit={handleSubmit}>
             <div className="user__img">
               <img src={userImg} alt="user image" />
-              <div className="choose__photo">Выбрать фотографию</div>
+              <label htmlFor="photoInput">Выбрать фотографию</label>
+              <input
+                id="photoInput"
+                type="file"
+                onChange={(e) => handleChange(e)}
+                onBlur={handleBlur}
+                accept="image/*"
+              />
             </div>
             <div className="first__block">
               <input
@@ -132,11 +146,21 @@ const UserProfile = () => {
               <button
                 type="submit"
                 className={`done__btn ${
-                  !values.firstName || !values.lastName || !values.date || !userData.tel
+                  !values.firstName ||
+                  !values.lastName ||
+                  !values.date ||
+                  !userData.tel ||
+                  !values.photo
                     ? 'login__disabled'
                     : 'login__activated'
                 }`}
-                disabled={!userData.tel || !values.firstName || !values.lastName || !values.date}
+                disabled={
+                  !userData.tel ||
+                  !values.firstName ||
+                  !values.lastName ||
+                  !values.date ||
+                  !values.photo
+                }
               >
                 Закончить регистрацию
               </button>
