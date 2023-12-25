@@ -48,11 +48,10 @@ const NumberModal = () => {
       }
     },
   });
-  
-  const handleCloseModal = () => {
-    dispatch(closeModal(false));
-  };
 
+  const isCloseModal = () => {
+    dispatch(closeModal({ modalName: 'modalIsOpen', value: false }));
+  };
   const handleCodeSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -64,7 +63,7 @@ const NumberModal = () => {
         throw new Error('Verification failed');
       }
       dispatch(setUser({ tel: values.phone }));
-      handleCloseModal();
+      isCloseModal();
       resetForm();
       console.log('Verification successful');
     } catch (error) {
@@ -79,7 +78,7 @@ const NumberModal = () => {
         <Modal
           className="first__modal"
           open={modalIsOpen}
-          onClose={() => dispatch(closeModal(false))}
+          onClose={isCloseModal}
           aria-labelledby="modal-modal-title"
           aria-describedby="modal-modal-description"
         >
@@ -113,7 +112,7 @@ const NumberModal = () => {
         <Modal
           className="second__modal"
           open={modalIsOpen}
-          onClose={handleCloseModal}
+          onClose={isCloseModal}
           aria-labelledby="modal-modal-title"
           aria-describedby="modal-modal-description"
         >

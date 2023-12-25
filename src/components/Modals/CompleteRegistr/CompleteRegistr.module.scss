@@ -1,0 +1,21 @@
+@import '../../../styles/variables';
+.root {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 35px;
+  padding: 40px 0;
+  p {
+  }
+
+  .toProfile__btn {
+    background: $btn-color;
+  }
+  .close {
+    margin-top: -10px;
+    color: #494949;
+    font-size: 16px;
+    font-weight: 700;
+    width: 100px;
+  }
+}

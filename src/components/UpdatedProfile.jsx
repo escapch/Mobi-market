@@ -21,7 +21,10 @@ const UpdatedProfile = () => {
       </div>
       <div className="second__block">
         <div className="add__phone">
-          <div className="add__phoneBtn" onClick={() => dispatch(openModal(true))}>
+          <div
+            className="add__phoneBtn"
+            onClick={() => dispatch(openModal({ modalName: 'modalIsOpen', value: true }))}
+          >
             Добавить номер
           </div>
           <p className="number">{userData.tel}</p>

@@ -1,7 +1,8 @@
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import style from './Card.module.scss';
 import { useState } from 'react';
-import axios from 'axios';
+import axios, { all } from 'axios';
+import { openModal } from '../../redux/slice/modal.slice';
 
 const Card = ({
   full_description,
@@ -14,29 +15,37 @@ const Card = ({
   onClick,
 }) => {
   const [like, setLike] = useState(false);
+  // const [openModal, setOpenModal] = useState(false);
+  const dispatch = useDispatch();
+  const completeRegModal = useSelector((state) => state.modalReducer.completeRegModal);
 
   const onsubmit = async (product_id, e) => {
     e.stopPropagation();
     const { data } = await axios.get('https://neobook.online/mobi-market/users/me/');
     console.log(data);
     const allFieldsFilled = Object.values(data).every(
-      (value) => value !== null && value !== undefined && value !== '',
+      (value) => value !== undefined && value !== '',
     );
-    console.log(allFieldsFilled);
-    if (like) {
-      console.log(product_id);
-      const res = await axios.delete(
-        `https://neobook.online/mobi-market/products/unlike/${product_id}/`,
-      );
-      console.log(res.status);
-      setLike(false);
+    // console.log(allFieldsFilled);
+    if (!allFieldsFilled) {
+      console.log('not completed registration');
+      dispatch(openModal({ modalName: 'completeRegModal', value: true }));
     } else {
-      console.log(product_id);
-      const res = await axios.post(
-        `https://neobook.online/mobi-market/products/like/${product_id}/`,
-      );
-      console.log(res.status);
-      setLike(true);
+      if (like) {
+        console.log('unlike' + product_id);
+        const res = await axios.delete(
+          `https://neobook.online/mobi-market/products/unlike/${product_id}/`,
+        );
+        console.log(res.status);
+        setLike(false);
+      } else {
+        console.log('like ' + product_id);
+        const res = await axios.post(
+          `https://neobook.online/mobi-market/products/like/${product_id}/`,
+        );
+        console.log(res.status);
+        setLike(true);
+      }
     }
   };
   return (

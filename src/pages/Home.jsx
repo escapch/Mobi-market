@@ -8,6 +8,7 @@ import Card from '../components/Card';
 import { selectProduct, setProducts } from '../redux/slice/productSlice';
 import CardModal from '../components/Modals/CardModal';
 import { openModal } from '../redux/slice/modal.slice';
+import CompleteRegistr from '../components/Modals/CompleteRegistr';
 
 const Home = () => {
   const [navigate, setNavigate] = useState(false);
@@ -21,6 +22,7 @@ const Home = () => {
   const dispatch = useDispatch();
   const product = useSelector(selectProduct);
   const modalIsOpen = useSelector((state) => state.modalReducer.modalIsOpen);
+  const completeRegModal = useSelector((state) => state.modalReducer.completeRegModal);
 
   useEffect(() => {
     (async () => {
@@ -47,7 +49,8 @@ const Home = () => {
 
   const isOpenModal = (id) => {
     setIndex(id);
-    dispatch(openModal(true));
+    // dispatch(openModal(true));
+    dispatch(openModal({ modalName: 'modalIsOpen', value: true }));
   };
 
   return (
@@ -62,6 +65,7 @@ const Home = () => {
               <Card {...item} key={item.id} onClick={() => isOpenModal(i)} />
             ))}
             {modalIsOpen && <CardModal value={product[index]} />}
+            {completeRegModal && <CompleteRegistr />}
           </div>
         </section>
         <div className="home__pagination">123</div>

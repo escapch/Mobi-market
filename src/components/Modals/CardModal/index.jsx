@@ -7,17 +7,19 @@ import { closeModal } from '../../../redux/slice/modal.slice';
 const CardModal = ({ value }) => {
   const dispatch = useDispatch();
   const modalIsOpen = useSelector((state) => state.modalReducer.modalIsOpen);
-
+  const isCloseModal = () => {
+    dispatch(closeModal({ modalName: 'modalIsOpen', value: false }));
+  };
   return (
     <Modal
       open={modalIsOpen}
-      onClose={() => dispatch(closeModal(false))}
+      onClose={isCloseModal}
       aria-labelledby="modal-modal-title"
       aria-describedby="modal-modal-description"
     >
       <div className={style.card__modalContent}>
         <div className={style.card__content}>
-          <div className={style.closeButton} onClick={() => dispatch(closeModal(false))}>
+          <div className={style.closeButton} onClick={isCloseModal}>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="24"

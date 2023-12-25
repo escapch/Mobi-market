@@ -1,5 +1,5 @@
 import { useFormik } from 'formik';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -12,8 +12,44 @@ import UpdatedProfile from './UpdatedProfile';
 const UserProfile = () => {
   const dispatch = useDispatch();
   const userData = useSelector(selectUser);
-  const [view, setView] = useState(true);
   const updateUrl = 'https://neobook.online/mobi-market/users/profile/update/';
+  const userCheckUrl = 'https://neobook.online/mobi-market/users/me/';
+  const completedProfile = useSelector((state) => state.modalReducer.completedProfile);
+  const profileUpdated = () => {
+    dispatch(openModal({ modalName: 'completedProfile', value: true }));
+  };
+
+  const [fielled, setFilled] = useState(false);
+
+  useEffect(() => {
+    (async () => {
+      try {
+        const response = await axios.get('https://neobook.online/mobi-market/users/me/');
+
+        const data = response.data;
+        console.log(data);
+        Object.values(data).every((value) => value !== undefined && value !== '')
+          ? setFilled(true)
+          : '';
+
+        dispatch(
+          setUser({
+            userName: data.username,
+            email: data.email,
+            tel: data.phone,
+            date: data.birth_date,
+            firstName: data.first_name,
+            lastName: data.last_name,
+          }),
+        );
+      } catch (e) {
+        console.log('Error' + e);
+        setNavigate(true);
+      }
+    })();
+  }, []);
+  console.log(fielled);
+
   const {
     values,
     errors,
@@ -32,7 +68,7 @@ const UserProfile = () => {
       date: '',
       tel: '',
       email: '',
-      photo: '',
+      photo: null,
     },
     onSubmit: async () => {
       try {
@@ -53,19 +89,17 @@ const UserProfile = () => {
             firstName: values.firstName,
             lastName: values.lastName,
             date: values.date,
-            photo: values.photo,
+            // photo: values.photo,
           }),
         );
         resetForm();
         console.log('Updating successful');
-        setView(false);
+        profileUpdated();
       } catch (error) {
         console.error('Error during updating:', error.message);
       }
     },
   });
-  // const areAllFieldsFilled = Object.values(userData).every((value) => console.log(value));
-  // console.log(areAllFieldsFilled);
   return (
     <div className="user__profile">
       <div className="profile__settings">
@@ -79,18 +113,18 @@ const UserProfile = () => {
         </div>
       </div>
       <div className="user__data">
-        {view ? (
+        {!completedProfile ? (
           <form onSubmit={handleSubmit}>
             <div className="user__img">
               <img src={userImg} alt="user image" />
               <label htmlFor="photoInput">Выбрать фотографию</label>
-              <input
+              {/* <input
                 id="photoInput"
                 type="file"
                 onChange={(e) => handleChange(e)}
                 onBlur={handleBlur}
                 accept="image/*"
-              />
+              /> */}
             </div>
             <div className="first__block">
               <input
@@ -128,7 +162,10 @@ const UserProfile = () => {
             </div>
             <div className="second__block">
               <div className="add__phone">
-                <div className="add__phoneBtn" onClick={() => dispatch(openModal(true))}>
+                <div
+                  className="add__phoneBtn"
+                  onClick={() => dispatch(openModal({ modalName: 'modalIsOpen', value: true }))}
+                >
                   Добавить номер
                 </div>
                 <p className="number">{userData.tel ? userData.tel : '0(000) 000 000'}</p>
@@ -146,21 +183,11 @@ const UserProfile = () => {
               <button
                 type="submit"
                 className={`done__btn ${
-                  !values.firstName ||
-                  !values.lastName ||
-                  !values.date ||
-                  !userData.tel ||
-                  !values.photo
+                  !values.firstName || !values.lastName || !values.date || !userData.tel
                     ? 'login__disabled'
                     : 'login__activated'
                 }`}
-                disabled={
-                  !userData.tel ||
-                  !values.firstName ||
-                  !values.lastName ||
-                  !values.date ||
-                  !values.photo
-                }
+                disabled={!userData.tel || !values.firstName || !values.lastName || !values.date}
               >
                 Закончить регистрацию
               </button>

@@ -4,7 +4,7 @@ import MyProductLink from '../components/MyProductLink';
 import UserProfile from '../components/UserProfile';
 
 import { useEffect, useState } from 'react';
-import { Navigate } from 'react-router';
+import { Navigate, json } from 'react-router';
 import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -14,27 +14,40 @@ import { selectUser, setUser } from '../redux/slice/userSlice';
 
 const Profile = () => {
   const [navigate, setNavigate] = useState(false);
+  const [fielled, setFilled] = useState(false);
   const dispatch = useDispatch();
 
   const modalIsOpen = useSelector((state) => state.modalReducer.modalIsOpen);
-  const userData = useSelector(selectUser);
+  // const userData = useSelector(selectUser);
 
-  useEffect(() => {
-    (async () => {
-      try {
-        const { data } = await axios.get('https://neobook.online/mobi-market/users/me/');
-        dispatch(
-          setUser({
-            userName: data.username,
-            email: data.email,
-          }),
-        );
-      } catch (e) {
-        console.log('Error' + e);
-        setNavigate(true);
-      }
-    })();
-  }, []);
+  // useEffect(() => {
+  //   (async () => {
+  //     try {
+  //       const response = await axios.get('https://neobook.online/mobi-market/users/me/');
+
+  //       const data = response.data;
+  //       console.log(data);
+  //       Object.values(data).every((value) => value !== undefined && value !== '')
+  //         ? setFilled(true)
+  //         : '';
+
+  //       dispatch(
+  //         setUser({
+  //           userName: data.username,
+  //           email: data.email,
+  //           tel: data.phone,
+  //           date: data.birth_date,
+  //           firstName: data.first_name,
+  //           lastName: data.last_name,
+  //         }),
+  //       );
+  //     } catch (e) {
+  //       console.log('Error' + e);
+  //       setNavigate(true);
+  //     }
+  //   })();
+  // }, []);
+  // console.log(fielled);
 
   const logout = async () => {
     try {
@@ -63,7 +76,7 @@ const Profile = () => {
         <div className="block__nav">
           <div className="top">
             <UserInfo />
-            <h3>Hi{userData.userName}</h3>
+            <h3>Hi{}</h3>
           </div>
           <ul className="links">
             <li>
